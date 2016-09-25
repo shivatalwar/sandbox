@@ -4,11 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var connect = require('connect');
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var fs = require('fs');  // add filesystem
 
 var app = express();
+var port = process.env.PORT || 3000; // run on the port 3000
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,9 +24,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', routes);
 app.use('/users', users);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -56,6 +58,10 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+// listen at port 3000
+app.listen(port);
+console.log('The Server runs on port ' + port);
 
 
 module.exports = app;
